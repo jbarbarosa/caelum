@@ -27,14 +27,21 @@ func (c *Comparator) run() {
 func (c *Comparator) getBestPrediction(first, second *Prediction) int {
 	firstScore := 0
 	secondScore := 0
-	firstDelta, secondDelta := giveScore(c.getDelta(first), c.getDelta(second))
+	firstDelta, secondDelta := giveScore(c.getTemperatureDelta(first), c.getTemperatureDelta(second))
 	firstScore += firstDelta
 	secondScore += secondDelta
+
 	return 1 //todo: finish comparing other struct's attributes and adding to score
 }
 
-func (c *Comparator) getDelta(p *Prediction) int8 {
-	return p.ForcePositive().Temperature - c.CurrentWeather.ForcePositive().Temperature
+func (c *Comparator) getTemperatureDelta(p *Prediction) int8 {
+	var temperature int8
+	if c.CurrentWeather.Temperature < 0 {
+		temperature = p.ForcePositive().Temperature - c.CurrentWeather.Temperature
+	} else {
+		temperature = p.Temperature - c.CurrentWeather.Temperature
+	}
+	return temperature
 }
 
 func giveScore(first, second int8) (int, int) {

@@ -1,17 +1,16 @@
 package entity
 
 type Prediction struct {
-	UnixTime    int16
-	Temperature int8
-	Rain        bool
-	Snow        bool
-	Wind        Wind
-	By          string
-	//humity, uv, cloudy, thermal sensetion, visibility, fog, pressure
-}
-
-func (*Prediction) Make(unixTime int16, temperature int8, rain, snow bool, wind Wind, by string) Prediction {
-	return Prediction{unixTime, temperature, rain, snow, wind, by}
+	UnixTime         int16
+	Temperature      int8
+	Uv               int8
+	Pressure         int
+	Visibility       int
+	Humidity         int8
+	ThermalSensation int8
+	Wind             Wind
+	Conditions       Conditions
+	By               string
 }
 
 func (p *Prediction) ForcePositive() *Prediction {
